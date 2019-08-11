@@ -1,31 +1,5 @@
-setwd("~/Desktop/r-novice-inflammation/")
-read.csv(file = "data/inflammation-01.csv", header = FALSE)
-weight_kg <- 55
-weight_kg * 0.5
-weight_kg
-2.2 * weight_kg
-a <- 2
-a + 2
-dat <- read.csv(file = "data/inflammation-01.csv", header = FALSE)
-b <- 3
-dat[c(3:5),c(11:15)]
-mean(dat[,7])
-dat[,7]
-plot(apply(dat, 2, sd))
-plot(apply(dat, 1, mean))
-rescale <- function(v) {
-  # Rescales a vector, v, to lie in the range 0 to 1.
-  L <- min(v)
-  H <- max(v)
-  result <- (v - L) / (H - L)
-  return(result)
-}
-vector1 <- c(1, 2, 3)
-rescale(vector1)
-dat
-x 
-dat[1,]
-dat[2, ]
+
+
 count <- 0
 total <- 0
 
