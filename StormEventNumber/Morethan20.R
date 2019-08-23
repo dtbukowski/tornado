@@ -177,10 +177,8 @@ get_storm_event_table <- function (filename) {
                    long = factor(long,-171:-65))
   return(table(dat$lat,dat$long))
 }
-
-
-dat2017 <- get_storm_event_table("StormEvents_locations-ftp_v1.0_d2017_c20190716.csv")
-dat2018 <- get_storm_event_table("StormEvents_locations-ftp_v1.0_d2018_c20190617.csv")
-
-
-print(read.csv("StormEvents_locations-ftp_v1.0_d2018_c20190617.csv", stringsAsFactors = FALSE))
+filesNames <- Sys.glob("*.csv")
+install.packages("workflowr")
+library("workflowr")
+wflow_git_config(user.name = "David Bukowski", user.email = "thedavidbuko@gmail.com")
+wflow_start("myproject", git = FALSE)
