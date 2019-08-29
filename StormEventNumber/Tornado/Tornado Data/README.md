@@ -1,4 +1,4 @@
-# myproject
+# Tornado Data
 
 A [workflowr][] project.
 

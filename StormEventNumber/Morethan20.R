@@ -178,7 +178,16 @@ get_storm_event_table <- function (filename) {
   return(table(dat$lat,dat$long))
 }
 filesNames <- Sys.glob("*.csv")
-install.packages("workflowr")
-library("workflowr")
-wflow_git_config(user.name = "David Bukowski", user.email = "thedavidbuko@gmail.com")
-wflow_start("myproject", git = FALSE)
+#install.packages("workflowr")
+install.packages("ggplot2")
+#library("workflowr")
+#wflow_git_config(user.name = "David Bukowski", user.email = "thedavidbuko@gmail.com")
+wflow_start("Tornado Data", git = FALSE)
+wflow_build()
+getwd()
+setwd("myproject")
+getwd()
+wflow_build()
+wflow_publish()
+
+
