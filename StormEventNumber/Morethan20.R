@@ -177,17 +177,49 @@ get_storm_event_table <- function (filename) {
                    long = factor(long,-171:-65))
   return(table(dat$lat,dat$long))
 }
+library(ggplot2)
 filesNames <- Sys.glob("*.csv")
+firstfile = TRUE
+for(file in filesNames){
+  if (firstfile){
+    dat <- read.csv(file,stringsAsFactors=FALSE)
+    dat <- transform(dat,
+                     lat  = round(LATITUDE),
+                     long = round(LONGITUDE))
+    dat <- transform(dat,
+                     lat  = factor(lat,-14:63),
+                     long = factor(long,-171:-65))
+    datT <- table(dat$lat,dat$long)
+    firstfile = FALSE
+  }
+  dat2 <- read.csv(file,stringsAsFactors=FALSE)
+  dat2 <- transform(dat,
+                   lat  = round(LATITUDE),
+                   long = round(LONGITUDE))
+  dat2 <- transform(dat,
+                   lat  = factor(lat,-14:63),
+                   long = factor(long,-171:-65))
+  datT = datT + table(dat$lat,dat$long)
+}
+datTframe <- data.frame(lat   = as.vector(matrix(as.numeric(colnames(datT)),78,107,byrow=TRUE)),
+                                                          long  = as.vector(matrix(as.numeric(rownames(datT)),78,107,byrow=FALSE)),
+                                                          count = as.vector(datT))
+datTplot <- ggplot(datTframe, aes(x = lat, y = long, color = count)) +
+     geom_point(size = 1) +
+     scale_color_gradient2(low = "darkgreen",high = "darkred",mid = "white") +
+     theme_minimal()
+
+
 #install.packages("workflowr")
 install.packages("ggplot2")
 #library("workflowr")
 #wflow_git_config(user.name = "David Bukowski", user.email = "thedavidbuko@gmail.com")
-wflow_start("Tornado Data", git = FALSE)
+wflow_start("Tornado", git = FALSE, existing = TRUE)
 wflow_build()
 getwd()
 setwd("myproject")
 getwd()
-wflow_build()
 wflow_publish()
+
 
 

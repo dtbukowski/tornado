@@ -7,4 +7,11 @@ editor_options:
   chunk_output_type: console
 ---
 
-Describe your project.
+![Map of 2013-2018 total](20132018.png)
+
+```{r cars-plot}
+library(ggplot2)
+data(cars)
+summary(cars)
+plot(cars$speed,cars$dist,pch = 20)
+```
