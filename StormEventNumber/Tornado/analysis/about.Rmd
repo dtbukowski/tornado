@@ -15,3 +15,4 @@ data(cars)
 summary(cars)
 plot(cars$speed,cars$dist,pch = 20)
 ```
+

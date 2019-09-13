@@ -1,4 +1,6 @@
 
+list.files()
+detailframe <- read.csv("StormEvents_details-ftp_v1.0_d2018_c20190817.csv",stringsAsFactors=FALSE)
 
 # count <- 0
 # total <- 0
@@ -178,6 +180,7 @@ get_storm_event_table <- function (filename) {
   return(table(dat$lat,dat$long))
 }
 library(ggplot2)
+setwd("/Users/dtbukowski/Documents/GitHub/tornado/StormEventNumber")
 filesNames <- Sys.glob("*.csv")
 firstfile = TRUE
 for(file in filesNames){
@@ -192,14 +195,17 @@ for(file in filesNames){
     datT <- table(dat$lat,dat$long)
     firstfile = FALSE
   }
-  dat2 <- read.csv(file,stringsAsFactors=FALSE)
-  dat2 <- transform(dat,
-                   lat  = round(LATITUDE),
-                   long = round(LONGITUDE))
-  dat2 <- transform(dat,
-                   lat  = factor(lat,-14:63),
-                   long = factor(long,-171:-65))
-  datT = datT + table(dat$lat,dat$long)
+  else{
+    dat2 <- read.csv(file,stringsAsFactors=FALSE)
+    dat2 <- transform(dat,
+                      lat  = round(LATITUDE),
+                      long = round(LONGITUDE))
+    dat2 <- transform(dat,
+                      lat  = factor(lat,-14:63),
+                      long = factor(long,-171:-65))
+    datT = datT + table(dat$lat,dat$long)
+  }
+  
 }
 datTframe <- data.frame(lat   = as.vector(matrix(as.numeric(colnames(datT)),78,107,byrow=TRUE)),
                                                           long  = as.vector(matrix(as.numeric(rownames(datT)),78,107,byrow=FALSE)),
@@ -221,5 +227,22 @@ setwd("myproject")
 getwd()
 wflow_publish()
 
-
-
+#new code
+dat <- read.csv("StormEvents_details-ftp_v1.0_d2018_c20190817.csv",stringsAsFactors = FALSE)
+head(dat)
+subset(detailframe,EVENT_TYPE == "Thunderstorm")
+dat <- transform(dat,
+                 lat  = round(BEGIN_LAT),
+                 long = round(BEGIN_LON))
+dat <- transform(dat,
+                 lat  = factor(lat,-14:63),
+                 long = factor(long,-171:-65))
+datT <- table(dat$lat,dat$long)
+datTframe <- data.frame(lat   = as.vector(matrix(as.numeric(colnames(datT)),78,107,byrow=TRUE)),
+                        long  = as.vector(matrix(as.numeric(rownames(datT)),78,107,byrow=FALSE)),
+                        count = as.vector(datT))
+datTplot <- ggplot(datTframe, aes(x = lat, y = long, color = count)) +
+  geom_point(size = 1) +
+  scale_color_gradient2(low = "darkgreen",high = "darkred",mid = "white") +
+  theme_minimal()
+print(datTplot)
